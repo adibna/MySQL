@@ -1,51 +1,96 @@
-# Fundamentals of MySQL
-Most modern web applications utilize a database structure on the back-end. Such databases are used to store and retrieve data related to the web application, from actual web content to user information and content, and so on. To make the web application dynamic, the web application has to interact with the database in real-time. As HTTPS requests arrive from the user, the web applications back-end will issue queries to the database to build the response. These queries can include information from the HTTPS request or other relevant information.
 
+Fundamentals of MySQL
+
+Most modern web applications rely on a database structure on the back-end. These databases store and retrieve data related to the application, ranging from web content to user information. To make an application dynamic, it must interact with the database in real-time. As HTTPS requests are received from users, the back-end issues queries to the database to build appropriate responses. These queries often include data from the HTTPS request or other relevant information.
 <img width="1132" height="398" alt="Image" src="https://github.com/user-attachments/assets/101474b2-7fe7-4045-8e70-ae4c5ecfa999" />
 
-When user supplied information is used to construct the query to the database, malicious users can trick the query into being used for something other than what the original programmer intended, providing the user acces to query the database using an attack known as SQL injection (SQLi).
+When user-supplied input is used to construct database queries, malicious users may manipulate this input to alter the query’s behavior, granting themselves unintended access to the database. This type of attack is known as SQL Injection (SQLi).
 
-SQL injection refers to attacks against relational databases such as MySQL (whereas injections against non-relational databases, such as MongoDB, are NoSQL injection). This module will focus on MySQL to introduce SQL injection concepts.
+SQL Injection targets relational databases like MySQL, while attacks against non-relational databases (such as MongoDB) are referred to as NoSQL Injection. This document focuses on MySQL as an introduction to SQL Injection concepts.
+SQL Injection
 
-# SQL injection
-Many types of injection vulnerabilities are possible within web applications, such as HTTP injection, code injection and command injection. The most common example, however, is SQL injection. A SQL injection occurs when a malicious user attemps to pass input that changes the final SQL query sent by the web application to the database, enanbling the user to perform other unintended SQL queries directly against the database.
+There are various types of injection vulnerabilities in web applications, including HTTP header injection, code injection, and command injection. However, SQL Injection remains one of the most common and dangerous.
+A SQL Injection occurs when a malicious user submits crafted input that alters the final SQL query sent by the application to the database, allowing the user to execute unintended queries directly.
 
-There are many ways to accomplish this. To get a SQL injection to work, the attacker must first inject SQL code an then subvert the web application logic by changing the original query or executing a completely new one. First, the attacker has to inject code outside the expected user input limits, so it does not get executed as simple user input. In the most basic case, this is done by injecting a single quote (') or a double quote (") to escape the limits of user input and inject data directly into the SQL query.
+To successfully exploit this vulnerability, an attacker must inject SQL code and manipulate the web application's logic — either by altering the intended query or by introducing an entirely new query. Typically, this is done by injecting characters like single quotes (') or double quotes (") to break out of the intended input context and inject malicious SQL code.
+Use Cases and Impact
 
-# Use Cases and Impact
-A SQL injection can have a tremendous impact, especially if privileges on the back-end server and database are very lax.
-First, we may retrieve secret/sensitive information that should not be visible to us, like user logins and password or credit card information, which can then be used for other malicious purposes. SQL injection cause many password and data breachers against websites, which are then re-used to steal user account, acces other services, or perform other nefarious actions.
+SQL Injection vulnerabilities can have a severe impact, especially if the back-end database permissions are overly permissive.
 
-Another use case of SQL injection is to subvert the intended web application logic. The most common example of this is bypassing login without passing a valid pair of username and password credentials. Another example is accessing features that are locked to specific users, like admin panels. Attackers may also be able to read and write files directly on the back end server, which may, in turn, lead to placing back doors on the back-end server, and gaining direct control over it, and eventually taking control over the entire website.
+Attackers can:
 
-# Prevention
-SQL injection are usually cause by poorly coded web applications or poorly secured back-end server and databases privileges. Later on, we will discuss ways to reduce the chances of being vulnerable to SQL inections through secure coding methods like user input sanitization and validation and proper back-end user privileges and control.
+    Exfiltrate sensitive data such as usernames, passwords, or credit card numbers, which can later be abused for further malicious purposes.
 
-# Intro to Database
-Before we learn about SQL injections, we need to learn more about databases and Structured Query Language (SQL), which databases will peform the necessary queries. Web applications utilize back-end databases to store various content and information related to the web application. This can be core web application assets like images and files, content like posts and updates, or user data like usernames and passwords.
+    Breach accounts, perform identity theft, or abuse leaked data in other services.
 
-There are many different types of databases, each of which fits a particular type of use. Traditionally, an application used file-based databases, which was very slow with the increase in size. This led to the adoption of Database Management Systems (DBMS).
+    Bypass authentication mechanisms (e.g., log in without valid credentials).
 
-# Database Management Systems
-A Database Management System (DBMS) helps create, define, host and manage databases. Various kinds of DBMS were designed over time, such as file-base, Relational DBMS (RDBMS), NoSQL, Graph based, and Key/Valye stores.
+    Access restricted areas (e.g., admin panels).
 
-There are multiple ways to intereact with a DBMS, such as command-line tools, graphical interfaces, or even APIs. DBMS is used in various banking, finance, and education sectors to record large amounts of data. Some of the essential features of DBMS include:
+    Read and write arbitrary files on the back-end server, potentially implanting backdoors and taking over the entire system.
 
-- Concurrency = A real worlds application might have multiple users interacting with simultaneously. A DBMS makes sure that these concurrent interactions succed without corrupting or losing any data.
-- Consistency = With so many concurrent interactions, the DBMS needs to ensure that the data remains consistent and valid throughout the database.
-- Security DBMS provides fine-grained security controls through user authentication and permissions. This will prevent unauthorized viewing or editing of sensitive data.
-- Realiability = It is easy to backup database and rolls them back to a previous state in case of data loss or a breach.
-- Structured Query Language = SQL simplifies user interaction with the database with an intuitive systax supporting various operations.
+SQL Injection has been responsible for countless data breaches globally and remains a prevalent threat today.
+Prevention
 
-# Architecture
-The diagram below details a two tiered architecture.
+SQL Injections typically result from poorly written code or improperly configured database permissions.
+To mitigate these risks, developers should follow secure coding practices, such as:
+
+    Properly sanitizing and validating all user inputs.
+
+    Using parameterized queries (prepared statements).
+
+    Restricting database privileges following the principle of least privilege.
+
+Introduction to Databases
+
+Before diving deeper into SQL Injection, it's important to understand the basics of databases and Structured Query Language (SQL).
+Databases store various types of data used by web applications — from assets like images and files to dynamic content like posts, and sensitive information like user credentials.
+
+Historically, applications used file-based storage, which became impractical as data volumes grew. This limitation led to the adoption of Database Management Systems (DBMS).
+Database Management Systems (DBMS)
+
+A DBMS provides tools to create, define, host, and manage databases. Over time, several types of DBMS have been developed, including:
+
+    File-based
+
+    Relational (RDBMS)
+
+    NoSQL
+
+    Graph-based
+
+    Key/Value stores
+
+Interaction with a DBMS can be done via command-line tools, graphical interfaces, or APIs. DBMS solutions are widely used across industries like banking, finance, and education for storing and managing large datasets.
+
+Key DBMS features include:
+
+    Concurrency: Supports multiple simultaneous users without corrupting data.
+
+    Consistency: Ensures data remains accurate despite concurrent access.
+
+    Security: Enforces access controls through authentication and permissions.
+
+    Reliability: Provides backup and restore mechanisms for recovery.
+
+    SQL: Simplifies interactions with databases via a standardized, intuitive query language.
+
+Architecture
+
+The diagram below illustrates a two-tier architecture:
 <img width="1388" height="398" alt="Image" src="https://github.com/user-attachments/assets/fb3b5b74-7a79-4442-a03b-096ef3e85d0c" />
 
-Tier I usually consists of client side application such as websites or GUI programs. These applications consist of high-level interations such as user login or commenting. The data from these interactions is passed to Tire II through API calls or other requests.
+Tier I typically consists of client-side applications (websites, GUI programs) handling user interactions like logging in or posting comments. These actions communicate with Tier II via API calls or requests.
 
-The second tirer is the middleware, which interprets these events and puts them in a form required by the DBMS. Finally, the application layers users specific libraries and drivers base on the type of DBMS to interact with them. The DBMS receives queries from the second tier and performs the requested operations. These operations could include insertion, retrieval, deletions, or updating of data. After processing, the DBMS returns any requested data or error codes in the event of invalid queries.
+Tier II serves as middleware, translating requests into database operations via DBMS-specific drivers or libraries. The DBMS then executes operations such as insertion, retrieval, updates, or deletions, and returns the results.
 
-It is possible to host the application server as well as the DBMS on the same host. However, databases with large amounts of data supporting many users are typically hosted separately to improve performance and scalability.
+For scalability and performance, large databases often run on separate dedicated servers rather than sharing resources with the application server.
+Types of Databases
 
+Databases are generally categorized into:
 
+    Relational Databases (SQL-based)
 
+    Non-Relational Databases (NoSQL)
+
+Relational databases use SQL for structured interactions, while non-relational databases employ various other models and query methods.
