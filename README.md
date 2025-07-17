@@ -37,7 +37,15 @@ There are multiple ways to intereact with a DBMS, such as command-line tools, gr
 - Realiability = It is easy to backup database and rolls them back to a previous state in case of data loss or a breach.
 - Structured Query Language = SQL simplifies user interaction with the database with an intuitive systax supporting various operations.
 
+# Architecture
+The diagram below details a two tiered architecture.
+<img width="1388" height="398" alt="Image" src="https://github.com/user-attachments/assets/fb3b5b74-7a79-4442-a03b-096ef3e85d0c" />
 
+Tier I usually consists of client side application such as websites or GUI programs. These applications consist of high-level interations such as user login or commenting. The data from these interactions is passed to Tire II through API calls or other requests.
+
+The second tirer is the middleware, which interprets these events and puts them in a form required by the DBMS. Finally, the application layers users specific libraries and drivers base on the type of DBMS to interact with them. The DBMS receives queries from the second tier and performs the requested operations. These operations could include insertion, retrieval, deletions, or updating of data. After processing, the DBMS returns any requested data or error codes in the event of invalid queries.
+
+It is possible to host the application server as well as the DBMS on the same host. However, databases with large amounts of data supporting many users are typically hosted separately to improve performance and scalability.
 
 
 
